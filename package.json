@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "HeartBank Blockchain",
   "main": "Block.js",
-  "type": "module", 
+  "type": "module",
   "scripts": {
     "test": "jest --watchAll"
   },
@@ -20,5 +20,8 @@
   "homepage": "https://github.com/HeartBank/kiitos.heartbank.org#readme",
   "devDependencies": {
     "jest": "^27.2.4"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
   }
 }

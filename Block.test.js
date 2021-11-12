@@ -1,6 +1,7 @@
+//import Block from "./Block.js"
 const Block = require("./Block.js")
 const { GENESIS_DATA } = require("./config.js")
-//import Block from "./Block.js"
+const cryptoHash = require("./crypto-hash.js")
 
 describe("Block", () => {
     const timestamp = "01/07/1985"
@@ -58,5 +59,9 @@ describe("mineBlock()", () => {
 
     it("sets the timestamp of the minedBlock", () => {
         expect(minedBlock.timestamp).not.toEqual(undefined)
+    })
+
+    it("creates SHA256 hash", () => {
+        expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, lastBlock.hash, data))
     })
 })
