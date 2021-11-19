@@ -17,6 +17,45 @@ describe("Block", () => {
         expect(block.hash).toEqual(hash)
         expect(block.data).toEqual(data)
     })
+
+    describe("genesis()", () => {
+        const genesisBlock = Block.genesis()
+        //console.log(genesisBlock)
+    
+        it("returns a Block instance", () => {
+            expect(genesisBlock instanceof Block).toBe(true) // .toEqual
+        })
+    
+        it("returns the genesis data", () => {
+            expect(genesisBlock).toEqual(GENESIS_DATA)
+        })
+    })
+    
+    describe("mineBlock()", () => {
+        const lastBlock = Block.genesis()
+        const data = "some data"
+        const minedBlock = Block.mineBlock({lastBlock, data})
+    
+        it("returns a Block instance", () => {
+            expect(minedBlock instanceof Block).toBe(true)
+        })
+    
+        it("sets the lastHash of minedBlock to the hash of the lastBlock", () => {
+            expect(minedBlock.lastHash).toEqual(lastBlock.hash)
+        })
+    
+        it("sets the data of the minedBlock", () => {
+            expect(minedBlock.data).toEqual(data)
+        })
+    
+        it("sets the timestamp of the minedBlock", () => {
+            expect(minedBlock.timestamp).not.toEqual(undefined)
+        })
+    
+        it("creates SHA256 hash", () => {
+            expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, lastBlock.hash, data))
+        })
+    })
 })
 
 //const block1 = new Block("01/07/1985", "01", "02", 555)
@@ -26,42 +65,3 @@ describe("Block", () => {
 // const block1 = new Block({timestamp: "01/07/1985", lashHash: "01", hash: "02", data: 555})
 // console.log("block1", block1)
 //const block1 = new Block({lashHash: "01", timestamp: "01/07/1985", data: 555})
-
-describe("genesis()", () => {
-    const genesisBlock = Block.genesis()
-    //console.log(genesisBlock)
-
-    it("returns a Block instance", () => {
-        expect(genesisBlock instanceof Block).toBe(true) // .toEqual
-    })
-
-    it("returns the genesis data", () => {
-        expect(genesisBlock).toEqual(GENESIS_DATA)
-    })
-})
-
-describe("mineBlock()", () => {
-    const lastBlock = Block.genesis()
-    const data = "some data"
-    const minedBlock = Block.mineBlock({lastBlock, data})
-
-    it("returns a Block instance", () => {
-        expect(minedBlock instanceof Block).toBe(true)
-    })
-
-    it("sets the lastHash of minedBlock to the hash of the lastBlock", () => {
-        expect(minedBlock.lastHash).toEqual(lastBlock.hash)
-    })
-
-    it("sets the data of the minedBlock", () => {
-        expect(minedBlock.data).toEqual(data)
-    })
-
-    it("sets the timestamp of the minedBlock", () => {
-        expect(minedBlock.timestamp).not.toEqual(undefined)
-    })
-
-    it("creates SHA256 hash", () => {
-        expect(minedBlock.hash).toEqual(cryptoHash(minedBlock.timestamp, lastBlock.hash, data))
-    })
-})
